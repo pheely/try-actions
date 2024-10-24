@@ -1,3 +1,3 @@
 module github.com/pheely/try-actions
 
-go 1.15.1
+go 1.23.2

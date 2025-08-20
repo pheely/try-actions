@@ -1,0 +1,9 @@
+name: Workflow Commands Example
+on:
+    workflow_dispatch:
+jobs:
+    example_job:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "::error file=plj.java,line=10,col=15::It's too late. Can't go back the hsitroy of time."
+            - run: echo "::debug::Just too late"

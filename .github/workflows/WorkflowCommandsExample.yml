@@ -5,24 +5,49 @@ jobs:
     example_job:
         runs-on: ubuntu-latest
         steps:
+            # This steps creates an error message in the workflow log
             - run: echo "::error file=plj.java,line=10,col=15::It's too late. Can't go back the hsitroy of time."
+
+            # This step creates a warning message in the workflow log
             - run: echo "::debug::Just too late"
+
+            # This step sets an output that can be used by other steps in the job or other jobs in the workflow
             - name: set an output
               id: set_output
               run: echo "fromJenny=hello" >> $GITHUB_OUTPUT
+
+            # This step uses the output from the previous step
             - name: use the output
               id: use_output
               run: echo "The output from the previous step is ${{ steps.set_output.outputs.fromJenny }}"
+            
+            # This step sets an output with secret value masked out
             - name: generate, mask, and output a secret
               id: set-a-secret
               run: |
                   SECRET_VALUE=$(( RANDOM ))
                   echo "::add-mask::$SECRET_VALUE"
                   echo "SECRET_VALUE=$SECRET_VALUE" >> "$GITHUB_OUTPUT"
+
+            # This step uses the secret output from the previous step
             - name: use the secret
               id: use_secret
               run: echo "The secret value is ${{ steps.set-a-secret.outputs.SECRET_VALUE }}"
 
+            # This step adds an environment variable in the environment file. The variable can be used by 
+            # subsequent steps in the job but not by other jobs in the workflow
+            - name: set a value
+              id: step-add-env
+              run: echo "J=jenny" >> $GITHUB_ENV
 
-
+            # This step uses the environment variable set in the previous step
+            - name: use the value
+              id: step-use-env
+              run: echo "The value from the previous step is ${{ env.J }}"
+    second_job:
+        runs-on: ubuntu-latest
+        needs: example_job
+        steps:
+            # This step trys to use the output from the first job, and should fail.
+            - run: echo "The value from the previous step is ${{ env.J }}"
 

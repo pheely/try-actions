@@ -9,10 +9,20 @@ jobs:
             - run: echo "::debug::Just too late"
             - name: set an output
               id: set_output
-              run: echo "fromJenny=kiss" >> $GITHUB_OUTPUT
+              run: echo "fromJenny=hello" >> $GITHUB_OUTPUT
             - name: use the output
               id: use_output
               run: echo "The output from the previous step is ${{ steps.set_output.outputs.fromJenny }}"
+            - name: generate, mask, and output a secret
+              id: set-a-secret
+              run: |
+                  SECRET_VALUE=$(( RANDOM ))
+                  echo "::add-mask::$SECRET_VALUE"
+                  echo "SECRET_VALUE=$SECRET_VALUE" >> "$GITHUB_OUTPUT"
+            - name: use the secret
+              id: use_secret
+              run: echo "The secret value is ${{ steps.set-a-secret.outputs.SECRET_VALUE }}
+
 
 
 

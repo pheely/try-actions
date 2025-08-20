@@ -1,4 +1,4 @@
-
+name: Matrix Workflow Example
 on:
     workflow_dispatch:
 jobs:

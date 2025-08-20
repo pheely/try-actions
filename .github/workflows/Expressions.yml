@@ -1,0 +1,29 @@
+name: Expressions Example
+on:
+  workflow_dispatch
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "The event that triggered this workflow is ${{ github.event_name }}"
+            - run: echo "The SHA of the commit that triggered this workflow is ${{ github.sha }}"
+            - run: echo "The workflow is running on branch ${{ github.ref_name }}"
+            - run: echo "The workflow is running on repository ${{ github.repository }}"
+            - run: echo "The workflow is running on actor ${{ github.actor }}"
+            - run: echo "The workflow is running on event ${{ github.event.action }}"
+            - run: echo "The workflow is running on job ${{ github.job }}"
+            - run: echo "The workflow is running on run number ${{ github.run_number }}"
+            - run: echo "The workflow is running on run ID ${{ github.run_id }}"
+            - run: echo "The workflow is running on workflow ${{ github.workflow }}"
+            - run: echo "The workflow is running on head ref ${{ github.head_ref }}"
+            - run: echo "The workflow is running on base ref ${{ github.base_ref }}"
+            - run: echo "The workflow is running on server URL ${{ github.server_url }}"
+            - run: echo "The workflow is running on API URL ${{ github.api_url }}"
+            - run: echo "The workflow is running on GraphQL URL ${{ github.graphql_url }}"
+            - run: echo "The commit hash is ${{ env.GITHUB_SHA }}"
+            - run: echo "${{ env.P }} like ${{ env.J }}"
+            - run: echo "The workflow is running on ${{ runner.os }} with version ${{ runner.os_version }}"
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        env:
+            J: 'Jenny'
+            P: 'Philip'

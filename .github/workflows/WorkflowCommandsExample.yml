@@ -7,3 +7,12 @@ jobs:
         steps:
             - run: echo "::error file=plj.java,line=10,col=15::It's too late. Can't go back the hsitroy of time."
             - run: echo "::debug::Just too late"
+            - name: set an output
+              id: set_output
+              run: echo "fromJenny=kiss" >> $GITHUB_OUTPUT
+            - name: use the output
+              id: use_output
+              run: echo "The output from the previous step is ${{ steps.set_output.outputs.fromJenny }}"
+
+
+

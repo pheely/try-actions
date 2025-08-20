@@ -29,6 +29,8 @@ on:
           - dev
           - staging
           - production
+  repository_dispatch:
+    types: [event1, event2]
 
 jobs:
   MyFirstJob:

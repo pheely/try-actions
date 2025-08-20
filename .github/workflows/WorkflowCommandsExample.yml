@@ -6,15 +6,21 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             # This steps creates an error message in the workflow log
-            - run: echo "::error file=plj.java,line=10,col=15::It's too late. Can't go back the hsitroy of time."
+            - run: |
+                echo "::error file=plj.java,line=10,col=15::It's too late. Can't go back the hsitroy of time."
+                echo "## Step 1 generates an error message in the workflow log" >> $GITHUB_STEP_SUMMARY
 
             # This step creates a warning message in the workflow log
-            - run: echo "::debug::Just too late"
+            - run: |
+                echo "::debug::Just too late" 
+                echo "## Step 2 generates a warning message in the workflow log" >> $GITHUB_STEP_SUMMARY
 
             # This step sets an output that can be used by other steps in the job or other jobs in the workflow
             - name: set an output
               id: set_output
-              run: echo "fromJenny=hello" >> $GITHUB_OUTPUT
+              run: | 
+                echo "fromJenny=hello" >> $GITHUB_OUTPUT
+                echo "## Step 3 sets an output" >> $GITHUB_STEP_SUMMARY
 
             # This step uses the output from the previous step
             - name: use the output
@@ -48,6 +54,6 @@ jobs:
         runs-on: ubuntu-latest
         needs: example_job
         steps:
-            # This step trys to use the output from the first job, and should fail.
+            # This step trys to use the output from the first job. However, the output is not available in this job.
             - run: echo "The value from the previous step is ${{ env.J }}"
 
